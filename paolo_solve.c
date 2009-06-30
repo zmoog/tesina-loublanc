@@ -124,6 +124,9 @@ int main (int argc, char *argv[])
     double t1_ = solver_param_[2];
     double h_ = 1e-6;
 
+    FILE *a = fopen("a.dat", "w");
+    FILE *b = fopen("b.dat", "w");
+
     while (t_ < t1_)
         {
         int j_;
@@ -133,14 +136,28 @@ int main (int argc, char *argv[])
             fprintf(stderr,"status=%d\n",status_);
             break;
             }
-        printf("%.8e",t_);
-        for (j_ = 0; j_ < N_; ++j_)
-            printf(" %.8e",y_[j_]);
-        printf("\n");
+
+        fprintf(a, "%.8e",y_[0]);
+        fprintf(b, "%.8e",y_[1]);
+
+        fprintf(a, "%.8e",t_);
+        fprintf(b, "%.8e",t_);
+
+        /*for (j_ = 0; j_ < N_; ++j_)
+            fprintf(stdout, " %.8e",y_[j_]);
+        */
+        fprintf(a, "\n");
+        fprintf(b, "\n");
         }
+
+    fclose(a);
+    fclose(b);
 
     gsl_odeiv_evolve_free(evolve_);
     gsl_odeiv_control_free(control_);
     gsl_odeiv_step_free(step_);
     return 0;
     }
+
+
+
